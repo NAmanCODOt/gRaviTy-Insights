@@ -90,100 +90,24 @@
     background: #000;
   }
 
-  /* star field */
-  .star-field {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(1px 1px at 20% 30%, rgba(212,175,55,.35) 0%, transparent 100%),
-      radial-gradient(1px 1px at 80% 15%, rgba(245,245,245,.25) 0%, transparent 100%),
-      radial-gradient(1px 1px at 55% 70%, rgba(212,175,55,.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 10% 80%, rgba(245,245,245,.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 90% 55%, rgba(212,175,55,.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 35% 90%, rgba(245,245,245,.15) 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 40%, rgba(212,175,55,.25) 0%, transparent 100%),
-      radial-gradient(2px 2px at 15% 50%, rgba(245,245,245,.1) 0%, transparent 100%),
-      radial-gradient(2px 2px at 60% 20%, rgba(212,175,55,.15) 0%, transparent 100%);
-    pointer-events: none;
-  }
+ .logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
 
-  /* radial vignette */
-  #hero::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(0,0,0,.7) 100%);
-    pointer-events: none;
-  }
+.hero-logo-svg {
+  width: 160px;
+  height: 160px;
+  filter: drop-shadow(0 0 20px rgba(212,175,55,0.25));
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
 
-  .hero-inner {
-    position: relative; z-index: 2;
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-    gap: 0;
-    animation: heroFadeIn 1.4s ease both;
-  }
-  @keyframes heroFadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-
-  /* logo wrapper with float */
-  .logo-orbit-wrap {
-    position: relative;
-    width: 260px; height: 260px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 2rem;
-    animation: logoFloat 5s ease-in-out infinite;
-  }
-  @keyframes logoFloat {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-  }
-
-  .hero-logo-svg {
-    width: 180px; height: 180px;
-    position: relative; z-index: 2;
-    filter: drop-shadow(0 0 18px rgba(212,175,55,0.25));
-  }
-
-  /* orbit star */
-  .orbit-ring {
-    position: absolute; inset: 0;
-    border-radius: 50%;
-    animation: orbitStar 6s linear infinite;
-  }
-  @keyframes orbitStar {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  .orbit-star {
-    position: absolute;
-    top: -6px; left: 50%; transform: translateX(-50%);
-    width: 10px; height: 10px;
-    animation: starGlow 6s linear infinite;
-  }
-  @keyframes starGlow {
-    0%,80%  { filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 8px var(--gold)); opacity:.8; }
-    85%,95% { filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px var(--gold)); opacity:1; }
-    100%    { filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 8px var(--gold)); opacity:.8; }
-  }
-
-  .orbit-star svg { width: 10px; height: 10px; fill: #fff; }
-
-  /* orbit path (subtle ellipse) */
-  .orbit-path {
-    position: absolute; inset: -6px;
-    border-radius: 50%;
-    border: 1px solid rgba(212,175,55,.18);
-    pointer-events: none;
-  }
-
-  .hero-eyebrow {
-    font-family: var(--sans);
-    font-size: .7rem;
-    letter-spacing: .25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeUp .8s .8s ease forwards;
-  }
+.hero-logo-svg:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 28px rgba(212,175,55,0.45));
+}
 
   .hero-title {
     font-family: var(--serif);
@@ -238,17 +162,6 @@
   .hero-cta:hover { color: var(--black); }
   .hero-cta:hover::before { transform: scaleX(1); }
 
-  .hero-scroll {
-    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: .6rem;
-    opacity: .5; z-index: 3;
-    animation: fadeUp .8s 2s ease forwards, bobScroll 2.5s 3s ease-in-out infinite;
-  }
-  @keyframes bobScroll { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
-  .hero-scroll span { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--white-mid); }
-  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
-
-  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
 
   /* ── SECTION BASE ───────────────────────── */
   section { padding: 8rem 4rem; }
@@ -839,55 +752,12 @@
   <div class="star-field"></div>
 
   <div class="hero-inner">
-    <div class="logo-orbit-wrap">
-      <div class="orbit-path"></div>
-      <div class="orbit-ring">
-        <div class="orbit-star">
-          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0L11.8 7.5L19 10L11.8 12.5L10 20L8.2 12.5L1 10L8.2 7.5Z"/>
-          </svg>
-        </div>
-      </div>
-      <!-- SVG Logo built from the brand image -->
-      <svg class="hero-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="planetGrad" cx="42%" cy="38%" r="58%">
-            <stop offset="0%" stop-color="#F5E070"/>
-            <stop offset="45%" stop-color="#D4AF37"/>
-            <stop offset="100%" stop-color="#7A5E0A"/>
-          </radialGradient>
-          <radialGradient id="ringGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.9"/>
-            <stop offset="100%" stop-color="#9A7A10" stop-opacity="0.6"/>
-          </radialGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-
-        <!-- Outer ring shadow/depth -->
-        <ellipse cx="100" cy="115" rx="72" ry="14" fill="none" stroke="#5A3E05" stroke-width="8" opacity="0.5"/>
-
-        <!-- Back ring arc (behind planet) -->
-        <path d="M 35 100 Q 100 78 165 100" fill="none" stroke="url(#ringGrad)" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
-
-        <!-- Planet body -->
-        <circle cx="100" cy="96" r="38" fill="url(#planetGrad)" filter="url(#glow)"/>
-
-        <!-- Planet dark shadow -->
-        <ellipse cx="112" cy="96" rx="20" ry="38" fill="rgba(0,0,0,0.25)"/>
-
-        <!-- Front ring arc (over planet) -->
-        <path d="M 35 100 Q 100 122 165 100" fill="none" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round"/>
-
-        <!-- Ring highlight -->
-        <path d="M 50 104 Q 100 118 150 104" fill="none" stroke="rgba(245,220,80,0.4)" stroke-width="2" stroke-linecap="round"/>
-
-        <!-- Star sparkle top-right -->
-        <g transform="translate(148, 56)" filter="url(#glow)">
-          <path d="M0 -9 L1.8 -1.8 L9 0 L1.8 1.8 L0 9 L-1.8 1.8 L-9 0 L-1.8 -1.8 Z" fill="#FFF8DC" opacity="0.95"/>
-        </g>
+  <div class="logo-wrap">
+  <!-- SVG Logo -->
+  <svg class="hero-logo-svg" viewBox="0 0 200 200">
+    <!-- keep your existing SVG exactly same -->
+  </svg>
+</div>
 
         <!-- Brand name -->
         <text x="100" y="160" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="20" font-weight="600" fill="#D4AF37" letter-spacing="1">gRaviTy</text>
