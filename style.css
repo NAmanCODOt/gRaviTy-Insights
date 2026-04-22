@@ -132,3 +132,31 @@ footer {
   text-align: center;
   color: #777;
 }
+.orbit-container {
+  position:vabsolute;
+  top: 40%
+  left: 50%
+  transform: translate(-50%, -50%);
+}
+.star {
+  width: 8px;
+  height: 8px; 
+background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff, 0 0 20px
+   #d4af37
+  animation: orbit 6s linear infinite;
+}
+@keyframes orbit {
+  0%{
+    transform: rotate(0deg)
+    translatex(80px) rotate ;
+  }
+  100% { 
+  transform: rotate(0deg);
+    translatex(80px) rotate(-360deg);
+  }
+}
+.hero {
+  position: relatiive;
+}
