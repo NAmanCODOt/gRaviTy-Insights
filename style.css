@@ -5,26 +5,99 @@ body {
   color: #fff;
 }
 
-nav {
+/* NAV */
+.nav {
   display: flex;
-  gap: 20px;
-  padding: 20px;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  align-items: center;
+  background: rgba(0,0,0,0.8);
+  position: fixed;
+  width: 100%;
 }
 
-a {
+.logo {
+  height: 35px;
+}
+
+.nav a {
   color: #aaa;
+  margin-left: 20px;
   text-decoration: none;
 }
 
-a:hover {
+.nav a:hover {
   color: #D4AF37;
 }
 
-.btn {
-  padding: 10px 20px;
-  border: 1px solid #D4AF37;
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 160px 20px 100px;
+}
+
+.hero-logo {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 60px;
   color: #D4AF37;
+}
+
+.hero p {
+  color: #aaa;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* BUTTON */
+.btn {
   display: inline-block;
   margin-top: 20px;
+  padding: 12px 26px;
+  border: 1px solid #D4AF37;
+  color: #D4AF37;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #D4AF37;
+  color: black;
+}
+
+/* SECTION */
+.section {
+  padding: 100px 20px;
+  text-align: center;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 30px;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* CARD */
+.card {
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  border-color: #D4AF37;
+  transform: translateY(-5px);
+}
+
+/* FOOTER */
+footer {
+  padding: 40px;
+  text-align: center;
+  color: #777;
 }
