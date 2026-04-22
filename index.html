@@ -89,13 +89,13 @@
     overflow: hidden;
     background: #000;
   }
-
- .logo-wrap {
+.logo-wrap {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   margin-bottom: 2rem;
 }
+
 
 .hero-logo-svg {
   width: 160px;
@@ -749,14 +749,26 @@
 
 <!-- HERO -->
 <section id="hero">
-  <div class="star-field"></div>
+ 
+ <div class="hero-inner">
 
-  <div class="hero-inner">
+  <!-- CLEAN LOGO ONLY -->
   <div class="logo-wrap">
-  <!-- SVG Logo -->
-  <svg class="hero-logo-svg" viewBox="0 0 200 200">
-    <!-- keep your existing SVG exactly same -->
-  </svg>
+    <svg class="hero-logo-svg" viewBox="0 0 200 200">
+      <!-- KEEP YOUR EXISTING SVG CONTENT HERE -->
+    </svg>
+  </div>
+
+  <p class="hero-eyebrow">Est. Research-Driven Market Intelligence</p>
+
+  <h1 class="hero-title">
+    gRaviTy<br><span class="gold">Insights</span>
+  </h1>
+
+  <p class="hero-sub">Decoding Markets. Delivering Clarity.</p>
+
+  <a href="#services-wrap" class="hero-cta">Explore Insights</a>
+
 </div>
 
         <!-- Brand name -->
@@ -770,10 +782,7 @@
     <a href="#services-wrap" class="hero-cta">Explore Insights</a>
   </div>
 
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+
 </section>
 
 <!-- ABOUT STRIP -->
