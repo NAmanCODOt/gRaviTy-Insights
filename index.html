@@ -1,84 +1,1320 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>gRaviTy Insights</title>
-<link rel="stylesheet" href="style.css">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gRaviTy Insights — Driven by Insight. Pulled by gRaviTy.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --gold: #D4AF37;
+    --gold-dim: rgba(212,175,55,0.15);
+    --gold-glow: rgba(212,175,55,0.4);
+    --white: #F5F5F5;
+    --white-dim: rgba(245,245,245,0.07);
+    --white-mid: rgba(245,245,245,0.55);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Montserrat', sans-serif;
+  }
 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NAV ────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(212,175,55,0.08);
+    transition: all .4s;
+  }
+  nav.scrolled { padding: 1rem 4rem; background: rgba(0,0,0,0.92); }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--white); font-weight: 300; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--white-mid);
+    text-decoration: none;
+    font-size: .78rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    font-size: .75rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(212,175,55,0.4);
+    padding: .55rem 1.4rem;
+    text-decoration: none;
+    transition: all .3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 1px; background: var(--gold); transition: all .3s; }
+
+  /* ── HERO ───────────────────────────────── */
+  #hero {
+    position: relative;
+    height: 100vh; min-height: 700px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    background: #000;
+  }
+
+  /* star field */
+  .star-field {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(1px 1px at 20% 30%, rgba(212,175,55,.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 15%, rgba(245,245,245,.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 70%, rgba(212,175,55,.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 80%, rgba(245,245,245,.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 55%, rgba(212,175,55,.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 90%, rgba(245,245,245,.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 40%, rgba(212,175,55,.25) 0%, transparent 100%),
+      radial-gradient(2px 2px at 15% 50%, rgba(245,245,245,.1) 0%, transparent 100%),
+      radial-gradient(2px 2px at 60% 20%, rgba(212,175,55,.15) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* radial vignette */
+  #hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(0,0,0,.7) 100%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 0;
+    animation: heroFadeIn 1.4s ease both;
+  }
+  @keyframes heroFadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+  /* logo wrapper with float */
+  .logo-orbit-wrap {
+    position: relative;
+    width: 260px; height: 260px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 2rem;
+    animation: logoFloat 5s ease-in-out infinite;
+  }
+  @keyframes logoFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .hero-logo-svg {
+    width: 180px; height: 180px;
+    position: relative; z-index: 2;
+    filter: drop-shadow(0 0 18px rgba(212,175,55,0.25));
+  }
+
+  /* orbit star */
+  .orbit-ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    animation: orbitStar 6s linear infinite;
+  }
+  @keyframes orbitStar {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .orbit-star {
+    position: absolute;
+    top: -6px; left: 50%; transform: translateX(-50%);
+    width: 10px; height: 10px;
+    animation: starGlow 6s linear infinite;
+  }
+  @keyframes starGlow {
+    0%,80%  { filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 8px var(--gold)); opacity:.8; }
+    85%,95% { filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px var(--gold)); opacity:1; }
+    100%    { filter: drop-shadow(0 0 4px var(--gold)) drop-shadow(0 0 8px var(--gold)); opacity:.8; }
+  }
+
+  .orbit-star svg { width: 10px; height: 10px; fill: #fff; }
+
+  /* orbit path (subtle ellipse) */
+  .orbit-path {
+    position: absolute; inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,.18);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: .7rem;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp .8s .8s ease forwards;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3.2rem, 7vw, 6rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -.01em;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp .8s 1s ease forwards;
+  }
+  .hero-title .gold { color: var(--gold); }
+
+  .hero-sub {
+    font-family: var(--serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.55rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--white-mid);
+    margin-bottom: 2.8rem;
+    letter-spacing: .02em;
+    opacity: 0;
+    animation: fadeUp .8s 1.2s ease forwards;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: .9rem 2.6rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--sans);
+    font-size: .75rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all .35s;
+    opacity: 0;
+    animation: fadeUp .8s 1.4s ease forwards;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
+    z-index: -1;
+  }
+  .hero-cta:hover { color: var(--black); }
+  .hero-cta:hover::before { transform: scaleX(1); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .6rem;
+    opacity: .5; z-index: 3;
+    animation: fadeUp .8s 2s ease forwards, bobScroll 2.5s 3s ease-in-out infinite;
+  }
+  @keyframes bobScroll { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+  .hero-scroll span { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--white-mid); }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── SECTION BASE ───────────────────────── */
+  section { padding: 8rem 4rem; }
+  .section-label {
+    font-size: .68rem;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.4rem;
+    display: block;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1.8rem;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .gold-line {
+    width: 48px; height: 1px;
+    background: var(--gold);
+    margin-bottom: 2.8rem;
+  }
+
+  /* ── ABOUT STRIP ────────────────────────── */
+  #about-strip {
+    background: linear-gradient(135deg, #0a0a0a 0%, #050505 100%);
+    border-top: 1px solid rgba(212,175,55,.1);
+    border-bottom: 1px solid rgba(212,175,55,.1);
+    padding: 7rem 4rem;
+  }
+
+  .about-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-left p {
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    line-height: 1.7;
+    color: var(--white-mid);
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-pillars { display: flex; flex-direction: column; gap: 1rem; }
+  .pillar {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.4rem;
+    border: 1px solid rgba(212,175,55,.12);
+    transition: border-color .3s, background .3s;
+  }
+  .pillar:hover { border-color: rgba(212,175,55,.4); background: var(--gold-dim); }
+  .pillar-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .pillar span { font-size: .88rem; letter-spacing: .08em; color: var(--white); }
+
+  .about-right {
+    display: flex; flex-direction: column; gap: 2.5rem;
+  }
+  .stat-item { border-left: 2px solid var(--gold); padding-left: 1.8rem; }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 3rem;
+    color: var(--gold);
+    font-weight: 600;
+    line-height: 1;
+  }
+  .stat-label { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--white-mid); margin-top: .3rem; }
+
+  .learn-more {
+    display: inline-flex; align-items: center; gap: .7rem;
+    font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+    transition: border-color .3s;
+    margin-top: 1rem;
+  }
+  .learn-more:hover { border-color: var(--gold); }
+  .learn-more svg { width: 16px; height: 16px; transition: transform .3s; }
+  .learn-more:hover svg { transform: translateX(4px); }
+
+  /* ── SERVICES ───────────────────────────── */
+  #services {
+    max-width: 1300px; margin: 0 auto;
+  }
+  #services-wrap { padding: 8rem 4rem; background: #000; }
+
+  .services-header { max-width: 600px; margin-bottom: 5rem; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5px;
+    background: rgba(212,175,55,.08);
+  }
+
+  .service-card {
+    background: #000;
+    padding: 3rem 2.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background .35s;
+    border: 1px solid transparent;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .4s ease;
+  }
+  .service-card:hover::before, .service-card.active::before { transform: scaleX(1); }
+  .service-card:hover, .service-card.active {
+    background: #080808;
+    border-color: rgba(212,175,55,.15);
+  }
+
+  .card-icon {
+    width: 48px; height: 48px;
+    margin-bottom: 1.8rem;
+    opacity: .7;
+    transition: opacity .3s;
+  }
+  .service-card:hover .card-icon { opacity: 1; }
+
+  .card-title {
+    font-family: var(--serif);
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: .8rem;
+    letter-spacing: .01em;
+  }
+
+  .card-expand {
+    max-height: 0; overflow: hidden;
+    transition: max-height .45s ease, opacity .45s ease;
+    opacity: 0;
+  }
+  .service-card.active .card-expand { max-height: 100px; opacity: 1; }
+
+  .card-expand p {
+    font-size: .85rem;
+    line-height: 1.75;
+    color: var(--white-mid);
+    padding-top: .8rem;
+    border-top: 1px solid rgba(212,175,55,.12);
+  }
+
+  .card-arrow {
+    position: absolute; bottom: 2rem; right: 2rem;
+    width: 28px; height: 28px;
+    border: 1px solid rgba(212,175,55,.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .3s;
+    color: var(--gold);
+    font-size: .9rem;
+  }
+  .service-card:hover .card-arrow { background: var(--gold); color: #000; border-color: var(--gold); }
+  .service-card.active .card-arrow { transform: rotate(45deg); background: var(--gold); color: #000; border-color: var(--gold); }
+
+  /* ── REPORTS ────────────────────────────── */
+  #reports-wrap {
+    background: #030303;
+    border-top: 1px solid rgba(212,175,55,.08);
+    padding: 8rem 4rem;
+  }
+  .reports-inner { max-width: 1200px; margin: 0 auto; }
+  .reports-header { margin-bottom: 4rem; }
+
+  .reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .report-card {
+    border: 1px solid rgba(212,175,55,.12);
+    padding: 2.5rem;
+    position: relative;
+    transition: border-color .3s, transform .3s;
+    background: rgba(255,255,255,.015);
+  }
+  .report-card:hover { border-color: rgba(212,175,55,.4); transform: translateY(-4px); }
+
+  .report-tag {
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold);
+    display: inline-block;
+    border: 1px solid rgba(212,175,55,.3);
+    padding: .25rem .7rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .report-title {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--white);
+    margin-bottom: .9rem;
+  }
+
+  .report-desc {
+    font-size: .82rem;
+    line-height: 1.8;
+    color: var(--white-mid);
+    margin-bottom: 2rem;
+  }
+
+  .report-btn {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    border-bottom: 1px solid rgba(212,175,55,.3);
+    padding-bottom: 2px;
+    transition: border-color .3s;
+    cursor: pointer;
+    background: none; border-left:0; border-right:0; border-top:0;
+    border-bottom: 1px solid rgba(212,175,55,.3);
+    padding-bottom: 2px;
+  }
+  .report-btn:hover { border-color: var(--gold); }
+
+  /* featured report */
+  .report-card--featured {
+    grid-column: 1 / -1;
+    max-width: 780px;
+  }
+  .report-desc + .report-desc { margin-top: .6rem; }
+  .report-desc--meta {
+    font-style: italic;
+    color: rgba(245,245,245,.4);
+    font-size: .78rem;
+    margin-top: .8rem;
+  }
+  .report-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(212,175,55,.1);
+  }
+  .report-tags-row { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .report-micro-tag {
+    font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(212,175,55,.7);
+    border: 1px solid rgba(212,175,55,.2);
+    padding: .2rem .6rem;
+  }
+
+  /* ── COMING SOON ────────────────────────── */
+  #coming-wrap {
+    padding: 8rem 4rem;
+    background: #000;
+    text-align: center;
+  }
+  .coming-inner { max-width: 680px; margin: 0 auto; }
+
+  .coming-badge {
+    display: inline-block;
+    padding: .4rem 1.2rem;
+    border: 1px solid rgba(212,175,55,.3);
+    font-size: .65rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3rem;
+    animation: pulseBadge 3s ease-in-out infinite;
+  }
+  @keyframes pulseBadge { 0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0)} 50%{box-shadow:0 0 0 6px rgba(212,175,55,.08)} }
+
+  .coming-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 1.8rem;
+  }
+  .coming-body {
+    font-size: .9rem;
+    line-height: 1.9;
+    color: var(--white-mid);
+    margin-bottom: 3rem;
+  }
+
+  .progress-list { display: flex; flex-direction: column; gap: 1rem; text-align: left; }
+  .progress-item {
+    display: flex; align-items: center; gap: 1.2rem;
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(212,175,55,.08);
+  }
+  .progress-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(212,175,55,.3);
+    flex-shrink: 0;
+  }
+  .progress-dot.active { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+  .progress-item span { font-size: .82rem; color: var(--white-mid); letter-spacing: .04em; }
+
+  /* ── CONTACT ────────────────────────────── */
+  #contact-wrap {
+    background: #030303;
+    border-top: 1px solid rgba(212,175,55,.08);
+    padding: 8rem 4rem;
+  }
+  .contact-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-left .section-title { margin-bottom: 1.2rem; }
+  .contact-left p { font-size: .88rem; line-height: 1.9; color: var(--white-mid); margin-bottom: 2.5rem; }
+  .contact-email {
+    display: flex; align-items: center; gap: .8rem;
+    font-size: .82rem; color: var(--gold); letter-spacing: .04em;
+  }
+  .contact-email svg { opacity: .6; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-field { position: relative; }
+  .form-field label {
+    display: block;
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--white-mid);
+    margin-bottom: .5rem;
+  }
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    background: rgba(255,255,255,.03);
+    border: 1px solid rgba(212,175,55,.15);
+    color: var(--white);
+    padding: .85rem 1rem;
+    font-family: var(--sans);
+    font-size: .85rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color .3s;
+    resize: none;
+  }
+  .form-field input:focus,
+  .form-field textarea:focus { border-color: var(--gold); }
+  .form-field textarea { height: 110px; }
+
+  .form-submit {
+    padding: .9rem 2.4rem;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--sans);
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .35s;
+    position: relative; overflow: hidden;
+    align-self: flex-start;
+  }
+  .form-submit::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold); transform: scaleX(0);
+    transform-origin: left; transition: transform .35s; z-index: -1;
+  }
+  .form-submit:hover { color: #000; }
+  .form-submit:hover::before { transform: scaleX(1); }
+
+  .form-note { font-size: .72rem; color: rgba(245,245,245,.3); }
+
+  /* newsletter */
+  .newsletter-strip {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 3rem; flex-wrap: wrap;
+    margin-top: 6rem;
+    padding-top: 4rem;
+    border-top: 1px solid rgba(212,175,55,.1);
+  }
+  .newsletter-left h3 {
+    font-family: var(--serif);
+    font-size: 1.7rem; font-weight: 500;
+    color: var(--white); margin-bottom: .5rem;
+  }
+  .newsletter-left p { font-size: .82rem; color: var(--white-mid); }
+
+  .newsletter-form { display: flex; gap: 0; min-width: 380px; flex: 1; max-width: 480px; }
+  .newsletter-form input {
+    flex: 1;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(212,175,55,.2);
+    border-right: none;
+    color: var(--white);
+    padding: .85rem 1.2rem;
+    font-family: var(--sans);
+    font-size: .82rem;
+    outline: none;
+  }
+  .newsletter-form input:focus { border-color: var(--gold); }
+  .newsletter-form button {
+    padding: .85rem 1.8rem;
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: #000;
+    font-family: var(--sans);
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity .3s;
+    white-space: nowrap;
+  }
+  .newsletter-form button:hover { opacity: .85; }
+
+  /* ── FOOTER ─────────────────────────────── */
+  footer {
+    background: #000;
+    border-top: 1px solid rgba(212,175,55,.1);
+    padding: 3.5rem 4rem;
+    display: flex;
+    align-items: center; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+  }
+  .footer-brand .nav-logo { display: block; margin-bottom: .35rem; }
+  .footer-brand p { font-size: .72rem; color: rgba(245,245,245,.3); letter-spacing: .06em; }
+
+  .footer-links { display: flex; gap: 2.5rem; }
+  .footer-links a {
+    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(245,245,245,.35); text-decoration: none;
+    transition: color .3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-social { display: flex; gap: 1.2rem; align-items: center; }
+  .social-link {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(212,175,55,.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    color: var(--white-mid);
+    transition: all .3s;
+    font-size: .85rem;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+  /* ── ABOUT PAGE ─────────────────────────── */
+  #about-page {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: #000;
+    overflow-y: auto;
+  }
+  #about-page.open { display: block; }
+
+  .about-page-header {
+    padding: 2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(212,175,55,.1);
+    position: sticky; top: 0; background: rgba(0,0,0,.95); z-index: 10;
+    backdrop-filter: blur(18px);
+  }
+  .about-close {
+    width: 44px; height: 44px;
+    border: 1px solid rgba(212,175,55,.25);
+    background: none; color: var(--gold);
+    font-size: 1.1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .3s;
+  }
+  .about-close:hover { background: var(--gold); color: #000; }
+
+  .about-page-body { max-width: 1000px; margin: 0 auto; padding: 6rem 4rem; }
+
+  .about-section {
+    margin-bottom: 7rem;
+    padding-bottom: 7rem;
+    border-bottom: 1px solid rgba(212,175,55,.07);
+  }
+  .about-section:last-child { border-bottom: none; }
+
+  .about-section .section-label { margin-bottom: 1rem; }
+  .about-section .section-title { margin-bottom: 1.2rem; font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  .about-section .gold-line { margin-bottom: 2rem; }
+
+  .about-section p {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.85;
+    color: rgba(245,245,245,.7);
+    max-width: 700px;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-items { display: flex; flex-direction: column; gap: .8rem; margin-top: 1.5rem; }
+  .about-item {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    padding: 1.2rem 1.6rem;
+    border: 1px solid rgba(212,175,55,.1);
+    transition: all .3s;
+  }
+  .about-item:hover { border-color: rgba(212,175,55,.3); background: rgba(212,175,55,.03); }
+  .about-item-bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: .55rem; }
+  .about-item p { font-size: .92rem; line-height: 1.7; color: var(--white-mid); margin-bottom: 0; font-family: var(--sans); }
+
+  /* ── SCROLL REVEAL ──────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── TOAST ──────────────────────────────── */
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+    background: #111;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 1rem 1.8rem;
+    font-size: .8rem;
+    letter-spacing: .08em;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all .4s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ─────────────────────────── */
+  @media(max-width:900px){
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 5rem 1.5rem; }
+    #about-strip, #services-wrap, #reports-wrap, #coming-wrap, #contact-wrap { padding: 5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3.5rem; }
+    .newsletter-strip { flex-direction: column; gap: 2rem; }
+    .newsletter-form { min-width: 100%; }
+    footer { flex-direction: column; text-align: center; padding: 2.5rem 1.5rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+    .about-page-body { padding: 3rem 1.5rem; }
+    .hero-title { font-size: 2.8rem; }
+  }
+
+  @media(max-width:600px){
+    .cards-grid { grid-template-columns: 1fr; }
+    .logo-orbit-wrap { width: 170px; height: 170px; }
+    .hero-logo-svg { width: 120px; height: 120px; }
+  }
+</style>
+</head>
 <body>
 
 <!-- NAV -->
-<nav class="nav">
-  
-  <div>
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="reports.html">Reports</a>
-    <a href="contact.html">Contact</a>
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">gRaviTy <span>Insights</span></a>
+  <ul class="nav-links">
+    <li><a href="#about-strip">About</a></li>
+    <li><a href="#services-wrap">Services</a></li>
+    <li><a href="#reports-wrap">Reports</a></li>
+    <li><a href="#contact-wrap">Contact</a></li>
+  </ul>
+  <a href="#contact-wrap" class="nav-cta">Get In Touch</a>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero fade">
+<section id="hero">
+  <div class="star-field"></div>
 
-  <img src="logo.png" class="hero-logo">
-  <h1>gRaviTy Insights</h1>
-  <p>We don’t tell you what to buy.<br>We help you understand why things move.</p>
-  <a href="#services" class="btn">Explore ↓</a>
+  <div class="hero-inner">
+    <div class="logo-orbit-wrap">
+      <div class="orbit-path"></div>
+      <div class="orbit-ring">
+        <div class="orbit-star">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 0L11.8 7.5L19 10L11.8 12.5L10 20L8.2 12.5L1 10L8.2 7.5Z"/>
+          </svg>
+        </div>
+      </div>
+      <!-- SVG Logo built from the brand image -->
+      <svg class="hero-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="planetGrad" cx="42%" cy="38%" r="58%">
+            <stop offset="0%" stop-color="#F5E070"/>
+            <stop offset="45%" stop-color="#D4AF37"/>
+            <stop offset="100%" stop-color="#7A5E0A"/>
+          </radialGradient>
+          <radialGradient id="ringGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#9A7A10" stop-opacity="0.6"/>
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer ring shadow/depth -->
+        <ellipse cx="100" cy="115" rx="72" ry="14" fill="none" stroke="#5A3E05" stroke-width="8" opacity="0.5"/>
+
+        <!-- Back ring arc (behind planet) -->
+        <path d="M 35 100 Q 100 78 165 100" fill="none" stroke="url(#ringGrad)" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+
+        <!-- Planet body -->
+        <circle cx="100" cy="96" r="38" fill="url(#planetGrad)" filter="url(#glow)"/>
+
+        <!-- Planet dark shadow -->
+        <ellipse cx="112" cy="96" rx="20" ry="38" fill="rgba(0,0,0,0.25)"/>
+
+        <!-- Front ring arc (over planet) -->
+        <path d="M 35 100 Q 100 122 165 100" fill="none" stroke="url(#ringGrad)" stroke-width="6" stroke-linecap="round"/>
+
+        <!-- Ring highlight -->
+        <path d="M 50 104 Q 100 118 150 104" fill="none" stroke="rgba(245,220,80,0.4)" stroke-width="2" stroke-linecap="round"/>
+
+        <!-- Star sparkle top-right -->
+        <g transform="translate(148, 56)" filter="url(#glow)">
+          <path d="M0 -9 L1.8 -1.8 L9 0 L1.8 1.8 L0 9 L-1.8 1.8 L-9 0 L-1.8 -1.8 Z" fill="#FFF8DC" opacity="0.95"/>
+        </g>
+
+        <!-- Brand name -->
+        <text x="100" y="160" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="20" font-weight="600" fill="#D4AF37" letter-spacing="1">gRaviTy</text>
+      </svg>
+    </div>
+
+    <p class="hero-eyebrow">Est. Research-Driven Market Intelligence</p>
+    <h1 class="hero-title">gRaviTy<br><span class="gold">Insights</span></h1>
+    <p class="hero-sub">Decoding Markets. Delivering Clarity.</p>
+    <a href="#services-wrap" class="hero-cta">Explore Insights</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
+<!-- ABOUT STRIP -->
+<div id="about-strip">
+  <div class="about-grid reveal">
+    <div class="about-left">
+      <span class="section-label">What is gRaviTy Insights</span>
+      <h2 class="section-title">A platform built on<em> understanding</em></h2>
+      <div class="gold-line"></div>
+      <p>A research-driven platform focused on understanding markets, businesses, and industry trends.</p>
+      <div class="about-pillars">
+        <div class="pillar"><div class="pillar-dot"></div><span>We simplify complexity.</span></div>
+        <div class="pillar"><div class="pillar-dot"></div><span>We decode patterns.</span></div>
+        <div class="pillar"><div class="pillar-dot"></div><span>We explain movement.</span></div>
+      </div>
+      <a href="#" class="learn-more" id="open-about">
+        Learn More
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+    <div class="about-right">
+      <div class="stat-item">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Service Verticals</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Research-Driven</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Depth of Analysis</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- SERVICES -->
-<section id="services" class="section fade">
-  <h2>What We Do</h2>
-
-  <div class="grid">
-    <div class="card">
-      <h3>Market Analysis</h3>
-      <p>Understand trends, movement, and patterns.</p>
+<div id="services-wrap">
+  <section id="services">
+    <div class="services-header reveal">
+      <span class="section-label">What We Do</span>
+      <h2 class="section-title">Our <em>core</em><br>disciplines</h2>
+      <div class="gold-line"></div>
     </div>
 
-    <div class="card">
-      <h3>Business Breakdown</h3>
-      <p>Deep dive into companies and strategies.</p>
+    <div class="cards-grid reveal">
+      <!-- card 1 -->
+      <div class="service-card" data-index="0">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="4,36 16,22 24,28 36,12 44,18" stroke="#D4AF37" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <polyline points="4,44 44,44" stroke="rgba(245,245,245,0.2)" stroke-width="1"/>
+        </svg>
+        <h3 class="card-title">Market Analysis</h3>
+        <div class="card-expand">
+          <p>Deep-dive market breakdowns that reveal what's driving price action, sector rotation, and macro forces behind every major move.</p>
+        </div>
+        <div class="card-arrow">+</div>
+      </div>
+
+      <!-- card 2 -->
+      <div class="service-card" data-index="1">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="6" width="36" height="36" rx="2" stroke="#D4AF37" stroke-width="1.5"/>
+          <line x1="6" y1="18" x2="42" y2="18" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+          <line x1="20" y1="6" x2="20" y2="42" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+          <circle cx="31" cy="30" r="5" stroke="#D4AF37" stroke-width="1.5"/>
+        </svg>
+        <h3 class="card-title">Business Analysis</h3>
+        <div class="card-expand">
+          <p>Fundamental breakdowns of how companies generate value — revenue models, competitive moats, and financial architecture decoded simply.</p>
+        </div>
+        <div class="card-arrow">+</div>
+      </div>
+
+      <!-- card 3 -->
+      <div class="service-card" data-index="2">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="18" stroke="#D4AF37" stroke-width="1.5"/>
+          <ellipse cx="24" cy="24" rx="8" ry="18" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+          <line x1="6" y1="24" x2="42" y2="24" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+        </svg>
+        <h3 class="card-title">Industry Research</h3>
+        <div class="card-expand">
+          <p>Sector-by-sector intelligence that maps industry dynamics, structural shifts, and emerging opportunities across global markets.</p>
+        </div>
+        <div class="card-arrow">+</div>
+      </div>
+
+      <!-- card 4 -->
+      <div class="service-card" data-index="3">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 40L20 24L28 32L38 16" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="38" cy="12" r="4" stroke="#D4AF37" stroke-width="1.5"/>
+          <circle cx="8" cy="40" r="3" fill="rgba(212,175,55,0.3)" stroke="#D4AF37" stroke-width="1"/>
+        </svg>
+        <h3 class="card-title">Strategic Insights</h3>
+        <div class="card-expand">
+          <p>Pattern recognition meets strategic thinking — we connect macro signals to micro decisions so you understand the full picture before you act.</p>
+        </div>
+        <div class="card-arrow">+</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- REPORTS -->
+<div id="reports-wrap">
+  <div class="reports-inner">
+    <div class="reports-header reveal">
+      <span class="section-label">Research Library</span>
+      <h2 class="section-title">Reports &<em> Insights</em></h2>
+      <div class="gold-line"></div>
     </div>
 
-    <div class="card">
-      <h3>Industry Insights</h3>
-      <p>Decode sectors like EV, AI, Banking.</p>
+    <div class="reports-grid reveal" id="reports-grid">
+      <div class="report-card report-card--featured">
+        <span class="report-tag">Industry Research Report</span>
+        <h3 class="report-title">Tata Motors PV Segment — Industry Research Report</h3>
+        <p class="report-desc">Over the past few weeks, I worked on an in-depth analysis of the Indian Passenger Vehicle industry, with a focus on Tata Motors' transformation story.</p>
+        <p class="report-desc">What started as a simple research exercise turned into a deep dive into the SUV-led structural shift in India, the rise of EVs and Tata Motors' leadership, changing consumer behaviour and purchase drivers, and competitive dynamics across Maruti, Hyundai, Mahindra, and emerging EV players.</p>
+        <p class="report-desc report-desc--meta">This report combines industry data with primary research and strategic frameworks like SWOT, Porter's Five Forces, and PESTLE to understand where the market is heading.</p>
+        <div class="report-footer">
+          <div class="report-tags-row">
+            <span class="report-micro-tag">SWOT</span>
+            <span class="report-micro-tag">Porter's Five Forces</span>
+            <span class="report-micro-tag">PESTLE</span>
+            <span class="report-micro-tag">EV Market</span>
+          </div>
+          <button class="report-btn" onclick="showToast('Full report coming soon — stay tuned.')">
+            Full Report Coming Soon
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMING SOON -->
+<div id="coming-wrap">
+  <div class="coming-inner reveal">
+    <div class="coming-badge">Coming Soon</div>
+    <h2 class="coming-title">Deeper insights<br>are being built</h2>
+    <p class="coming-body">Currently building structured, institutional-quality research reports and a global insight platform. The next phase of gRaviTy Insights is close.</p>
+    <div class="progress-list">
+      <div class="progress-item">
+        <div class="progress-dot active"></div>
+        <span>Advanced Research Reports</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot active"></div>
+        <span>Industry Deep Dives</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span>Global Insight Platform</span>
+      </div>
+      <div class="progress-item">
+        <div class="progress-dot"></div>
+        <span>Institutional-Level Analysis</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact-wrap">
+  <div class="contact-inner reveal">
+    <div class="contact-left">
+      <span class="section-label">Contact</span>
+      <h2 class="section-title">Let's <em>connect</em></h2>
+      <div class="gold-line"></div>
+      <p>Questions, collaborations, or anything else — reach out directly and we'll get back to you.</p>
+      <div class="contact-email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        gravity.insights07@gmail.com
+      </div>
+    </div>
+    <div class="contact-form" id="contact-form">
+      <div class="form-field">
+        <label>Your Name</label>
+        <input type="text" placeholder="Name">
+      </div>
+      <div class="form-field">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@email.com">
+      </div>
+      <div class="form-field">
+        <label>Message</label>
+        <textarea placeholder="Your message..."></textarea>
+      </div>
+      <button class="form-submit" onclick="submitForm()">Send Message</button>
+      <p class="form-note">We typically respond within 24–48 hours.</p>
     </div>
   </div>
 
-  <a href="services.html" class="btn">View More →</a>
-</section>
-
-<!-- ABOUT -->
-<section class="section fade">
-  <h2>Who We Are</h2>
-  <p>We simplify complexity. We decode patterns. We explain movement.</p>
-  <a href="about.html" class="btn">Read More →</a>
-</section>
-
-<!-- REPORTS -->
-<section class="section fade">
-  <h2>Reports</h2>
-  <p>Structured insights designed for clarity.</p>
-  <a href="reports.html" class="btn">View Reports →</a>
-</section>
-
-<!-- NEWSLETTER -->
-<section class="section fade">
-  <h2>Stay Ahead</h2>
-  <input type="email" placeholder="Enter your email">
-  <br><br>
-  <button class="btn">Subscribe</button>
-</section>
+  <!-- newsletter -->
+  <div class="newsletter-strip reveal">
+    <div class="newsletter-left">
+      <h3>Stay in orbit.</h3>
+      <p>Receive insights directly. No noise — only signal.</p>
+    </div>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Enter your email address" id="nl-email">
+      <button onclick="subscribeNewsletter()">Subscribe</button>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <p>gravity.insights07@gmail.com</p>
-  <p>@gravity.insights</p>
+  <div class="footer-brand">
+    <a href="#hero" class="nav-logo">gRaviTy <span>Insights</span></a>
+    <p>Driven by Insight. Pulled by gRaviTy.</p>
+  </div>
+  <div class="footer-links">
+    <a href="#about-strip">About</a>
+    <a href="#services-wrap">Services</a>
+    <a href="#reports-wrap">Reports</a>
+    <a href="#contact-wrap">Contact</a>
+  </div>
+  <div class="footer-social">
+    <a href="https://instagram.com/gravity.insights" target="_blank" class="social-link" title="@gravity.insights">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+      </svg>
+    </a>
+    <a href="mailto:gravity.insights07@gmail.com" class="social-link" title="Email">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    </a>
+  </div>
 </footer>
-<script src="script.js"></script>
+
+<!-- ABOUT PAGE OVERLAY -->
+<div id="about-page">
+  <div class="about-page-header">
+    <a href="#" class="nav-logo" onclick="closeAbout();return false;">gRaviTy <span>Insights</span></a>
+    <button class="about-close" onclick="closeAbout()">✕</button>
+  </div>
+  <div class="about-page-body">
+
+    <div class="about-section">
+      <span class="section-label">01 — Identity</span>
+      <h2 class="section-title">What is gRaviTy <em>Insights</em></h2>
+      <div class="gold-line"></div>
+      <p>A research-driven platform focused on understanding markets, businesses, and industry trends. We don't tell you what to buy — we help you understand why things move.</p>
+      <div class="about-items">
+        <div class="about-item"><div class="about-item-bullet"></div><p>We simplify complexity.</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>We decode patterns.</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>We explain movement.</p></div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <span class="section-label">02 — Services</span>
+      <h2 class="section-title">What <em>We Do</em></h2>
+      <div class="gold-line"></div>
+      <div class="about-items">
+        <div class="about-item"><div class="about-item-bullet"></div><p>Stock Analysis</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Business Breakdown</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Industry Research</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Market Insights</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Strategy Thinking</p></div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <span class="section-label">03 — Purpose</span>
+      <h2 class="section-title">Our <em>Purpose</em></h2>
+      <div class="gold-line"></div>
+      <div class="about-items">
+        <div class="about-item"><div class="about-item-bullet"></div><p>To bring clarity to complex markets</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>To simplify financial understanding</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>To make quality insights accessible</p></div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <span class="section-label">04 — Vision</span>
+      <h2 class="section-title">Our <em>Vision</em></h2>
+      <div class="gold-line"></div>
+      <p>To become a trusted global platform for market intelligence, business analysis and financial insights.</p>
+    </div>
+
+    <div class="about-section">
+      <span class="section-label">05 — Goal</span>
+      <h2 class="section-title">Our <em>Goal</em></h2>
+      <div class="gold-line"></div>
+      <div class="about-items">
+        <div class="about-item"><div class="about-item-bullet"></div><p>Build a strong research-driven ecosystem</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Deliver consistent, high-quality analysis</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Help people understand before they act</p></div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <span class="section-label">06 — Future</span>
+      <h2 class="section-title">Our <em>Future</em></h2>
+      <div class="gold-line"></div>
+      <div class="about-items">
+        <div class="about-item"><div class="about-item-bullet"></div><p>Advanced research reports</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Industry deep dives</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>A global insight platform</p></div>
+        <div class="about-item"><div class="about-item-bullet"></div><p>Institutional-level analysis</p></div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <span class="section-label">07 — Approach</span>
+      <h2 class="section-title">Our <em>Approach</em></h2>
+      <div class="gold-line"></div>
+      <p>We don't tell you what to buy. We help you understand why things move.</p>
+      <p>Our approach is grounded in research, clarity, and independence. Every insight we produce is designed to inform — not instruct.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Load logo image ──────────────────────────
+(function(){
+  const img = document.getElementById('hero-logo');
+  // encode from the uploaded png path
+  
+
+})();
+
+// ── Nav scroll ───────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── Scroll reveal ────────────────────────────
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ── Service cards ────────────────────────────
+document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const wasActive = card.classList.contains('active');
+    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
+    if(!wasActive) card.classList.add('active');
+  });
+});
+
+// ── About page ───────────────────────────────
+function openAbout(){
+  const ap = document.getElementById('about-page');
+  ap.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAbout(){
+  document.getElementById('about-page').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('open-about').addEventListener('click', (e) => {
+  e.preventDefault(); openAbout();
+});
+
+// ── Toast ─────────────────────────────────────
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Form submit ───────────────────────────────
+function submitForm(){
+  const inputs = document.querySelectorAll('#contact-form input, #contact-form textarea');
+  const filled = Array.from(inputs).every(i => i.value.trim());
+  if(!filled){ showToast('Please fill all fields.'); return; }
+  showToast('Message received — we\'ll be in touch.');
+  inputs.forEach(i => i.value = '');
+}
+
+// ── Newsletter ────────────────────────────────
+function subscribeNewsletter(){
+  const el = document.getElementById('nl-email');
+  if(!el.value.includes('@')){ showToast('Please enter a valid email.'); return; }
+  showToast('You\'re subscribed. Welcome aboard.');
+  el.value = '';
+}
+
+// upload handler removed
+
+// ── Smooth internal links ─────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+</script>
 </body>
 </html>
+
